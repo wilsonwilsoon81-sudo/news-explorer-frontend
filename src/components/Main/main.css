@@ -1,0 +1,35 @@
+.main {
+  padding: 120px 24px 40px;
+  max-width: 1280px;
+  margin: 0 auto;
+  text-align: center;
+  color: #ffffff;
+}
+
+.main__title {
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.main__subtitle {
+  font-size: 18px;
+  font-weight: 400;
+  opacity: 0.8;
+  margin-bottom: 40px;
+}
+
+.main__search-container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+@media screen and (max-width: 768px) {
+  .main__title {
+    font-size: 28px;
+  }
+  
+  .main__subtitle {
+    font-size: 16px;
+  }
+}

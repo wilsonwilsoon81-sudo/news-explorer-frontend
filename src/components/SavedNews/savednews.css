@@ -1,0 +1,5 @@
+.saved-news {
+  padding: 100px 24px 40px; /* Padding superior para compensar el Header fijo */
+  max-width: 1280px;
+  margin: 0 auto;
+}

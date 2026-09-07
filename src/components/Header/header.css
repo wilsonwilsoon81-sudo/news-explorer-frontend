@@ -1,0 +1,119 @@
+.header {
+  background-color: rgba(52, 58, 64, 0.8);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 15px 0;
+}
+
+.header__container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header__logo {
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+}
+
+.header__logo:hover {
+  opacity: 0.8;
+}
+
+.header__nav {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.header__link {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  padding-bottom: 4px;
+  border-bottom: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.header__link:hover {
+  opacity: 0.8;
+}
+
+.header__link_active {
+  border-bottom-color: #ffffff;
+}
+
+.header__email {
+  color: #ffffff;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.header__button {
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.header__button_type_login {
+  background-color: transparent;
+  color: #ffffff;
+  border: 1px solid #ffffff;
+}
+
+.header__button_type_login:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.header__button_type_logout {
+  background-color: transparent;
+  color: #ffffff;
+  text-decoration: underline;
+  border: none;
+  padding: 8px 0;
+}
+
+.header__button_type_logout:hover {
+  opacity: 0.8;
+}
+
+@media screen and (max-width: 768px) {
+  .header__nav {
+    gap: 16px;
+  }
+  
+  .header__email {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 544px) {
+  .header__container {
+    padding: 0 16px;
+  }
+  
+  .header__link {
+    font-size: 12px;
+  }
+  
+  .header__button {
+    padding: 6px 16px;
+    font-size: 12px;
+  }
+}

@@ -1,19 +1,38 @@
 import './main.css';
 import SearchForm from '../SearchForm/SearchForm';
-import NewsCard from '../NewsCard/NewsCard';
+import NewsCardList from '../NewsCardList/NewsCardList';
 
 function Main() {
   const handleSearch = (term) => {
     console.log("🚀 ¡Formulario enviado! Buscando noticias sobre:", term);
   };
 
-  const mockCard = {
-    image: "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=800&q=80",
-    date: "30 de agosto, 2026",
-    title: "Este es un título de prueba muy largo para verificar que se trunca correctamente con puntos suspensivos",
-    text: "Este es el texto de la noticia. También probaremos si se trunca después de tres líneas para mantener el diseño de la tarjeta limpio y uniforme.",
-    source: "The New York Times"
-  };
+  const mockCards = [
+    {
+      id: 1,
+      image: "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=800&q=80",
+      date: "30 de agosto, 2026",
+      title: "Avances en inteligencia artificial",
+      text: "La IA está transformando la manera en que interactuamos con la tecnología a diario.",
+      source: "Tech News"
+    },
+    {
+      id: 2,
+      image: "https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=800&q=80",
+      date: "29 de agosto, 2026",
+      title: "Nuevas tendencias en periodismo digital",
+      text: "Los medios de comunicación se adaptan a los nuevos formatos de consumo de noticias.",
+      source: "Media Daily"
+    },
+    {
+      id: 3,
+      image: "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=800&q=80",
+      date: "28 de agosto, 2026",
+      title: "El futuro del trabajo remoto",
+      text: "Cada vez más empresas adoptan modelos híbridos para sus empleados.",
+      source: "Business Insider"
+    }
+  ];
 
   return (
     <section className="main">
@@ -24,17 +43,7 @@ function Main() {
       
       <SearchForm onSearch={handleSearch} />
 
-      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '40px', padding: '0 20px' }}>
-        <div style={{ width: '350px' }}>
-          <NewsCard 
-            image={mockCard.image}
-            date={mockCard.date}
-            title={mockCard.title}
-            text={mockCard.text}
-            source={mockCard.source}
-          />
-        </div>
-      </div>
+      <NewsCardList cards={mockCards} />
     </section>
   );
 }

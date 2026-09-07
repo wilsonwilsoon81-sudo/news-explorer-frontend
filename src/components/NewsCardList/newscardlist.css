@@ -1,0 +1,33 @@
+.news-card-list {
+  padding: 40px 24px;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.news-card-list__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+  gap: 24px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.news-card-list__item {
+  display: flex;
+}
+
+.news-card-list__empty-message {
+  text-align: center;
+  color: #ffffff;
+  font-size: 18px;
+  margin-top: 40px;
+  opacity: 0.8;
+}
+
+@media screen and (max-width: 768px) {
+  .news-card-list__grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}

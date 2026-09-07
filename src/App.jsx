@@ -16,7 +16,6 @@ function App() {
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 1500);
-
     return () => clearTimeout(timer);
   }, []);
 
@@ -31,20 +30,22 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className="page" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      {/* Eliminamos los estilos en línea, el CSS de #root ya lo maneja */}
+      <div className="page">
         <Header 
           loggedIn={loggedIn} 
           email={currentUserEmail} 
           onSignOut={handleSignOut} 
         />
         
-        <main className="content" style={{ flex: 1 }}>
+        <main className="content">
           <Routes>
             <Route path="/" element={<Main />} />
             <Route path="/saved-news" element={<SavedNews />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </main>
+        
         <Footer />
       </div>
     </BrowserRouter>

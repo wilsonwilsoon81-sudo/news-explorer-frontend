@@ -1,7 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import './header.css';
 
-function Header({ loggedIn, onSignOut, email }) {
+function Header({ loggedIn, onSignOut, email, onLoginClick }) {
   const location = useLocation();
 
   return (
@@ -39,7 +39,7 @@ function Header({ loggedIn, onSignOut, email }) {
               >
                 Inicio
               </Link>
-              <button className="header__button header__button_type_login">
+              <button className="header__button header__button_type_login" onClick={onLoginClick}>
                 Inicia sesión
               </button>
             </>

@@ -54,6 +54,7 @@
   flex-direction: column;
   gap: 12px;
   flex-grow: 1;
+  text-align: left;
 }
 
 .news-card__date {

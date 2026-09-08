@@ -7,12 +7,17 @@ import Footer from './components/Footer/Footer';
 import SavedNews from './components/SavedNews/SavedNews';
 import Preloader from './components/Preloader/Preloader';
 import PopupWithForm from './components/PopupWithForm/PopupWithForm';
+import Login from './components/Login/Login';
+import Register from './components/Register/Register';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
-  const [loggedIn, setLoggedIn] = useState(true); 
-  const [currentUserEmail, setCurrentUserEmail] = useState('usuario@ejemplo.com');
-  const [isTestModalOpen, setIsTestModalOpen] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false); // Cambiado a false para probar el flujo
+  const [currentUserEmail, setCurrentUserEmail] = useState('');
+
+  // Estados para controlar qué modal está abierto
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isRegisterOpen, setIsRegisterOpen] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -26,10 +31,30 @@ function App() {
     setCurrentUserEmail('');
   };
 
-  const handleTestSubmit = (e) => {
+  // Funciones para abrir los modales
+  const openLoginModal = () => {
+    setIsLoginOpen(true);
+    setIsRegisterOpen(false);
+  };
+
+  const openRegisterModal = () => {
+    setIsRegisterOpen(true);
+    setIsLoginOpen(false);
+  };
+
+  // Funciones temporales para simular el envío de los formularios
+  const handleLoginSubmit = (e) => {
     e.preventDefault();
-    console.log("Formulario del modal enviado");
-    setIsTestModalOpen(false);
+    console.log("Login enviado");
+    setIsLoginOpen(false);
+    // Aquí más adelante conectaremos con la API
+  };
+
+  const handleRegisterSubmit = (e) => {
+    e.preventDefault();
+    console.log("Registro enviado");
+    setIsRegisterOpen(false);
+    // Aquí más adelante conectaremos con la API
   };
 
   if (isLoading) {
@@ -42,8 +67,8 @@ function App() {
         <Header 
           loggedIn={loggedIn} 
           email={currentUserEmail} 
-          onSignOut={handleSignOut}
-           onLoginClick={() => setIsTestModalOpen(true)} 
+          onSignOut={handleSignOut} 
+          onLoginClick={openLoginModal}
         />
         
         <main className="content">
@@ -55,17 +80,35 @@ function App() {
         </main>
         
         <Footer />
-         <PopupWithForm
-          isOpen={isTestModalOpen}
-          onClose={() => setIsTestModalOpen(false)}
-          title="Prueba de Modal"
-          name="test-form"
-          onSubmit={handleTestSubmit}
+
+        {/* Modal de Login */}
+        <PopupWithForm
+          isOpen={isLoginOpen}
+          onClose={() => setIsLoginOpen(false)}
+          title="Iniciar sesión"
+          name="login"
+          onSubmit={handleLoginSubmit}
         >
-          <input className="popup__input" type="email" placeholder="Correo" required />
-          <input className="popup__input" type="password" placeholder="Contraseña" required />
-          <button type="submit" className="popup__button">Enviar</button>
+          <Login 
+            onLogin={handleLoginSubmit} 
+            onSwitchToRegister={openRegisterModal} 
+          />
         </PopupWithForm>
+
+        {/* Modal de Registro */}
+        <PopupWithForm
+          isOpen={isRegisterOpen}
+          onClose={() => setIsRegisterOpen(false)}
+          title="Registrarse"
+          name="register"
+          onSubmit={handleRegisterSubmit}
+        >
+          <Register 
+            onRegister={handleRegisterSubmit} 
+            onSwitchToLogin={openLoginModal} 
+          />
+        </PopupWithForm>
+
       </div>
     </BrowserRouter>
   );

@@ -1,20 +1,23 @@
+/* src/components/Footer/footer.css */
 .footer {
   background-color: #ffffff;
   width: 100%;
-  height: 80px;
+  min-height: 80px; /* Cambiado de height a min-height para que no corte contenido */
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.footer__container {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
   padding: 0 104px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-}
-
-.footer__container {
-  max-width: 1440px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
+  box-sizing: border-box;
+  gap: 20px; /* Espacio mínimo entre elementos */
 }
 
 .footer__copyright {
@@ -24,12 +27,26 @@
   line-height: 22px;
   color: #B6BCBF;
   margin: 0;
+  
+  /* AGREGA ESTAS LÍNEAS PARA FORZAR SU POSICIÓN */
+  position: static !important; /* Anula cualquier position: absolute/fixed heredada */
+  flex-shrink: 0;
+  white-space: nowrap;
+  min-width: 200px;
+  z-index: 1; /* Asegura que esté por encima de otros elementos si hay superposición */
+}
+
+.footer__right-content {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  flex-shrink: 0; /* Evita que se encoja */
 }
 
 .footer__nav {
   display: flex;
   align-items: center;
-  gap: 40px;
+  gap: 24px;
 }
 
 .footer__link {
@@ -71,21 +88,32 @@
   fill: #191717;
 }
 
+/* Responsive: Ajuste para pantallas menores a 1440px */
+@media screen and (max-width: 1280px) {
+  .footer__container {
+    padding: 0 40px; /* Reducimos el padding para que quepa todo */
+  }
+}
+
 @media screen and (max-width: 768px) {
   .footer {
-    padding: 0 24px;
     height: auto;
-    padding: 20px 24px;
-    flex-direction: column;
-    gap: 16px;
+    padding: 20px 0;
   }
   
   .footer__container {
     flex-direction: column;
-    gap: 16px;
+    gap: 20px;
+    padding: 0 24px;
+    text-align: center;
   }
   
-  .footer__nav {
+  .footer__right-content {
+    flex-direction: column;
     gap: 20px;
+  }
+  
+  .footer__copyright {
+    min-width: auto;
   }
 }

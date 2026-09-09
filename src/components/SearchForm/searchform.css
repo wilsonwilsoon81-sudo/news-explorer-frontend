@@ -1,71 +1,83 @@
 .search-form {
   display: flex;
-  justify-content: center;
   align-items: center;
-  gap: 16px;
-  max-width: 700px;
-  margin: 0 auto;
-  padding: 0 20px;
+  width: 608px;
+  height: 64px;
+  background-color: transparent;
+  border: 1px solid #D1D2D6;
+  border-radius: 100px;
+  padding: 0;
+  overflow: hidden;
 }
 
 .search-form__input {
   flex-grow: 1;
   background-color: transparent;
   border: none;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
-  color: #ffffff;
+  padding: 0 24px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
   font-size: 16px;
-  padding: 12px 0;
+  line-height: 22px;
+  color: #ffffff;
   outline: none;
-  transition: border-color 0.3s ease;
+  height: 100%;
 }
 
 .search-form__input::placeholder {
-  color: rgba(255, 255, 255, 0.6);
-}
-
-.search-form__input:focus {
-  border-bottom-color: #ffffff;
+  color: #B6BCBF;
 }
 
 .search-form__button {
-  background-color: #ffffff;
-  color: #000000;
-  border: none;
-  border-radius: 20px;
-  padding: 10px 24px;
-  font-size: 14px;
+  font-family: 'Roboto', sans-serif;
   font-weight: 500;
+  font-size: 18px;
+  line-height: 24px;
+  color: #ffffff;
+  background-color: #2F71E5;
+  border: none;
+  border-radius: 100px;
+  width: 168px;
+  height: 64px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  box-shadow: 0px 5px 15px 0px rgba(14, 26, 57, 0.2); /* #0E1A3933 */
+  transition: background-color 0.3s ease;
+  white-space: nowrap;
 }
 
 .search-form__button:hover {
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: #1a5bc4;
 }
 
 .search-form__button_disabled {
-  background-color: rgba(255, 255, 255, 0.3);
-  color: rgba(0, 0, 0, 0.5);
+  background-color: #B6BCBF;
   cursor: not-allowed;
+  box-shadow: none;
 }
 
 .search-form__button_disabled:hover {
-  background-color: rgba(255, 255, 255, 0.3);
+  background-color: #B6BCBF;
 }
 
-@media screen and (max-width: 544px) {
+@media screen and (max-width: 768px) {
   .search-form {
+    width: 100%;
+    max-width: 608px;
     flex-direction: column;
-    gap: 20px;
+    height: auto;
+    border-radius: 12px;
+    padding: 12px;
+    gap: 12px;
   }
 
   .search-form__input {
     width: 100%;
     text-align: center;
+    padding: 12px;
   }
   
   .search-form__button {
     width: 100%;
+    border-radius: 12px;
   }
 }

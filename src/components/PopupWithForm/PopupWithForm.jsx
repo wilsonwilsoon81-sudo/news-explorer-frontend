@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import './popupwithform.css';
 
-function PopupWithForm({ isOpen, onClose, title, name, children, onSubmit }) {
+function PopupWithForm({ isOpen, onClose, title, children }) {
   
   useEffect(() => {
     const handleEsc = (e) => {
@@ -12,10 +12,13 @@ function PopupWithForm({ isOpen, onClose, title, name, children, onSubmit }) {
 
     if (isOpen) {
       window.addEventListener('keydown', handleEsc);
+      // Opcional: bloquear scroll del body cuando el modal está abierto
+      document.body.style.overflow = 'hidden';
     }
 
     return () => {
       window.removeEventListener('keydown', handleEsc);
+      document.body.style.overflow = 'auto'; // Restaurar scroll al cerrar
     };
   }, [isOpen, onClose]);
 
@@ -25,11 +28,10 @@ function PopupWithForm({ isOpen, onClose, title, name, children, onSubmit }) {
     }
   };
 
+  if (!isOpen) return null; // No renderizar nada si no está abierto
+
   return (
-    <div 
-      className={`popup ${isOpen ? 'popup_is-opened' : ''}`} 
-      onClick={handleOverlayClick}
-    >
+    <div className={`popup ${isOpen ? 'popup_is-opened' : ''}`} onClick={handleOverlayClick}>
       <div className="popup__container">
         <button 
           type="button" 
@@ -38,16 +40,10 @@ function PopupWithForm({ isOpen, onClose, title, name, children, onSubmit }) {
           aria-label="Cerrar"
         ></button>
         
-        <div className="popup__content">
+ <div className="popup__content">
           <h3 className="popup__title">{title}</h3>
-          
-          <form 
-            name={name} 
-            className="popup__form" 
-            onSubmit={onSubmit}
-          >
-            {children}
-          </form>
+          {/* Aquí se inyectará el <form> que viene de Login.jsx o Register.jsx */}
+          {children}
         </div>
       </div>
     </div>

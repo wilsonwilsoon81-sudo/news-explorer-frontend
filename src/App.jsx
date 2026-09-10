@@ -43,9 +43,8 @@ function App() {
   };
 
   // Funciones temporales para simular el envío de los formularios
-  const handleLoginSubmit = (e) => {
-    e.preventDefault();
-    console.log("Login enviado");
+  const handleLoginSubmit = (email, password) => {
+    console.log("Login:, email");
     setIsLoginOpen(false);
     // Aquí más adelante conectaremos con la API
   };

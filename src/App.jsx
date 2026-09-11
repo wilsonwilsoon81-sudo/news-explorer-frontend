@@ -8,7 +8,7 @@ import SavedNews from './components/SavedNews/SavedNews';
 import Preloader from './components/Preloader/Preloader';
 import PopupWithForm from './components/PopupWithForm/PopupWithForm';
 import Login from './components/Login/Login';
-import Register from './components/Register/Register';
+import Signup from './components/Signup/Signup';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -94,16 +94,20 @@ function App() {
           />
         </PopupWithForm>
 
-        {/* Modal de Registro */}
+                {/* Modal de Registro */}
         <PopupWithForm
           isOpen={isRegisterOpen}
           onClose={() => setIsRegisterOpen(false)}
-          title="Registrarse"
+          title="Inscribirse"
           name="register"
-          onSubmit={handleRegisterSubmit}
+          onSubmit={(e) => e.preventDefault()} // El form interno de Signup maneja el submit
         >
-          <Register 
-            onRegister={handleRegisterSubmit} 
+          <Signup 
+            onRegister={(name, email, password) => {
+              console.log("Registro enviado:", name, email, password);
+              setIsRegisterOpen(false);
+              // Aquí más adelante conectaremos con la API
+            }} 
             onSwitchToLogin={openLoginModal} 
           />
         </PopupWithForm>

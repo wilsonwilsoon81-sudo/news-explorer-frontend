@@ -9,15 +9,19 @@ import Preloader from './components/Preloader/Preloader';
 import PopupWithForm from './components/PopupWithForm/PopupWithForm';
 import Login from './components/Login/Login';
 import Signup from './components/Signup/Signup';
+import Popup from './components/Popup/Popup';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
-  const [loggedIn, setLoggedIn] = useState(false); // Cambiado a false para probar el flujo
+  const [loggedIn, setLoggedIn] = useState(false);
   const [currentUserEmail, setCurrentUserEmail] = useState('');
 
   // Estados para controlar qué modal está abierto
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
+  const [isSuccessPopupOpen, setIsSuccessPopupOpen] = useState(false);
+  const [isErrorPopupOpen, setIsErrorPopupOpen] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -31,7 +35,6 @@ function App() {
     setCurrentUserEmail('');
   };
 
-  // Funciones para abrir los modales
   const openLoginModal = () => {
     setIsLoginOpen(true);
     setIsRegisterOpen(false);
@@ -42,18 +45,20 @@ function App() {
     setIsLoginOpen(false);
   };
 
-  // Funciones temporales para simular el envío de los formularios
   const handleLoginSubmit = (email, password) => {
-    console.log("Login:, email");
+    console.log("Login enviado:", email);
+    setSuccessMessage("Inicio de sesión exitoso");
+    setIsSuccessPopupOpen(true);
     setIsLoginOpen(false);
-    // Aquí más adelante conectaremos con la API
+    setLoggedIn(true);
+    setCurrentUserEmail(email);
   };
 
-  const handleRegisterSubmit = (e) => {
-    e.preventDefault();
-    console.log("Registro enviado");
+  const handleRegisterSubmit = (name, email, password) => {
+    console.log("Registro enviado:", name, email);
+    setSuccessMessage("Usuario registrado. Inicie sesión.");
+    setIsSuccessPopupOpen(true);
     setIsRegisterOpen(false);
-    // Aquí más adelante conectaremos con la API
   };
 
   if (isLoading) {
@@ -80,13 +85,12 @@ function App() {
         
         <Footer />
 
-        {/* Modal de Login */}
+        {/* 1. Modal de Login */}
         <PopupWithForm
           isOpen={isLoginOpen}
           onClose={() => setIsLoginOpen(false)}
           title="Iniciar sesión"
           name="login"
-          onSubmit={handleLoginSubmit}
         >
           <Login 
             onLogin={handleLoginSubmit} 
@@ -94,23 +98,36 @@ function App() {
           />
         </PopupWithForm>
 
-                {/* Modal de Registro */}
+        {/* 2. Modal de Registro */}
         <PopupWithForm
           isOpen={isRegisterOpen}
           onClose={() => setIsRegisterOpen(false)}
           title="Inscribirse"
           name="register"
-          onSubmit={(e) => e.preventDefault()} // El form interno de Signup maneja el submit
         >
           <Signup 
-            onRegister={(name, email, password) => {
-              console.log("Registro enviado:", name, email, password);
-              setIsRegisterOpen(false);
-              // Aquí más adelante conectaremos con la API
-            }} 
+            onRegister={handleRegisterSubmit} 
             onSwitchToLogin={openLoginModal} 
           />
         </PopupWithForm>
+
+        {/* 3. Modal de Éxito (HERMANO, no hijo) */}
+        <Popup
+          isOpen={isSuccessPopupOpen}
+          onClose={() => setIsSuccessPopupOpen(false)}
+          title="¡Éxito!"
+          text={successMessage}
+          buttonText="Cerrar"
+        />
+
+        {/* 4. Modal de Error del Servidor (HERMANO, no hijo) */}
+        <Popup
+          isOpen={isErrorPopupOpen}
+          onClose={() => setIsErrorPopupOpen(false)}
+          title="Ha ocurrido un error"
+          text="Por favor, inténtelo de nuevo más tarde."
+          buttonText="Cerrar"
+        />
 
       </div>
     </BrowserRouter>

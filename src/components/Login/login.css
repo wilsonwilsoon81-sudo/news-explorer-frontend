@@ -1,9 +1,9 @@
+/* src/components/Login/login.css */
 .auth-form {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  max-width: 358px;
-  margin: 0 auto;
+  width: 100%; /* Ocupa todo el espacio disponible (358px por el padding del padre) */
+  /* ELIMINAMOS margin: 0 auto y max-width para evitar el centrado */
 }
 
 .auth-form__title {
@@ -14,9 +14,11 @@
   color: #1A1B22;
   margin: 0 0 32px 0;
   text-align: left;
+  width: 100%;
 }
 
 .auth-form__field {
+  width: 100%; /* Asegura que el campo ocupe todo el ancho */
   margin-bottom: 26px;
   position: relative;
 }
@@ -29,14 +31,15 @@
   color: #2F71E5;
   display: block;
   margin-bottom: 8px;
+  text-align: left;
 }
 
 .auth-form__input {
   width: 100%;
   height: 47px;
   padding: 0;
-  border: none; /* Elimina el borde completo */
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2); /* Solo línea inferior */
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 0;
   font-family: 'Inter', sans-serif;
   font-weight: 400;
@@ -46,7 +49,7 @@
   background-color: transparent;
   outline: none;
   box-sizing: border-box;
-  transition: border-color 0.3s ease;
+  text-align: left; /* El texto que escribe el usuario va a la izquierda */
 }
 
 .auth-form__input::placeholder {
@@ -55,11 +58,11 @@
 }
 
 .auth-form__input:focus {
-  border-color: #000000;
+  border-bottom-color: #000000;
 }
 
 .auth-form__input_error {
-  border-color: #FF0000;
+  border-bottom-color: #FF0000;
 }
 
 .auth-form__error {
@@ -70,15 +73,16 @@
   color: #FF0000;
   margin: 4px 0 0 0;
   padding: 0;
-  display: block; /* Asegurar que sea visible */
+  display: block;
   opacity: 1;
+  text-align: left;
 }
 
 .auth-form__button {
-  width: 358px;
+  width: 100%; /* El botón ocupa todo el ancho disponible */
   height: 64px;
   border: none;
-  border-radius: 100px !important;
+  border-radius: 100px;
   font-family: 'Roboto', sans-serif;
   font-weight: 500;
   font-size: 18px;
@@ -107,7 +111,8 @@
 }
 
 .auth-form__switch {
-  text-align: center;
+  width: 100%;
+  text-align: center; /* Este texto SÍ va centrado */
   margin-top: 24px;
 }
 
@@ -138,10 +143,6 @@
 }
 
 @media screen and (max-width: 544px) {
-  .auth-form {
-    max-width: 100%;
-  }
-  
   .auth-form__button {
     width: 100%;
   }

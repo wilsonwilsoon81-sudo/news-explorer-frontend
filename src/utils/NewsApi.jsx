@@ -1,17 +1,16 @@
+import { NEWS_API_KEY, NEWS_API_BASE_URL } from './constants';
+
 class NewsApi {
   constructor({ baseUrl, apiKey }) {
     this._baseUrl = baseUrl;
     this._apiKey = apiKey;
   }
 
-  // Método para buscar noticias
   getNews(keyword) {
-    // Calculamos la fecha de hace 7 días
     const toDate = new Date();
     const fromDate = new Date();
     fromDate.setDate(toDate.getDate() - 7);
 
-    // Formateamos las fechas a YYYY-MM-DD
     const formatDate = (date) => date.toISOString().split('T')[0];
 
     const url = new URL(`${this._baseUrl}/everything`);
@@ -32,11 +31,9 @@ class NewsApi {
   }
 }
 
-// Instancia con la URL base y API key
-// NOTA: En producción, usa el proxy: https://nomoreparties.co/news
 const newsApi = new NewsApi({
-  baseUrl: 'https://newsapi.org/v2', // Cambiar a 'https://nomoreparties.co/news/v2' en producción
-  apiKey: '6d76a8c7e13d482b92937a08a5300246', // ← REEMPLAZA ESTO CON TU API KEY REAL
+  baseUrl: NEWS_API_BASE_URL,
+  apiKey: NEWS_API_KEY,
 });
 
 export default newsApi;

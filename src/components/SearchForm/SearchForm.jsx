@@ -8,13 +8,12 @@ function SearchForm({ onSearch }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    // Validación exacta del brief
     if (!keyword.trim()) {
       setError('Por favor, introduzca una palabra clave');
       return;
     }
     
-    setError(''); // Limpiar error si es válido
+    setError('');
     onSearch(keyword);
   };
 
@@ -27,7 +26,7 @@ function SearchForm({ onSearch }) {
         value={keyword}
         onChange={(e) => {
           setKeyword(e.target.value);
-          if (error) setError(''); // Limpiar error al escribir
+          if (error) setError('');
         }}
       />
       <button className="search-form__button" type="submit">

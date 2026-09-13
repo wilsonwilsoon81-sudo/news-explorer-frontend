@@ -12,13 +12,12 @@ function PopupWithForm({ isOpen, onClose, title, children }) {
 
     if (isOpen) {
       window.addEventListener('keydown', handleEsc);
-      // Opcional: bloquear scroll del body cuando el modal está abierto
       document.body.style.overflow = 'hidden';
     }
 
     return () => {
       window.removeEventListener('keydown', handleEsc);
-      document.body.style.overflow = 'auto'; // Restaurar scroll al cerrar
+      document.body.style.overflow = 'auto';
     };
   }, [isOpen, onClose]);
 
@@ -28,7 +27,7 @@ function PopupWithForm({ isOpen, onClose, title, children }) {
     }
   };
 
-  if (!isOpen) return null; // No renderizar nada si no está abierto
+  if (!isOpen) return null;
 
   return (
     <div className={`popup ${isOpen ? 'popup_is-opened' : ''}`} onClick={handleOverlayClick}>
@@ -42,7 +41,6 @@ function PopupWithForm({ isOpen, onClose, title, children }) {
         
  <div className="popup__content">
           <h3 className="popup__title">{title}</h3>
-          {/* Aquí se inyectará el <form> que viene de Login.jsx o Register.jsx */}
           {children}
         </div>
       </div>

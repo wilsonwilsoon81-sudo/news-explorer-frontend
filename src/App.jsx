@@ -16,7 +16,6 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [currentUserEmail, setCurrentUserEmail] = useState('');
 
-  // Estados para controlar qué modal está abierto
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const [isSuccessPopupOpen, setIsSuccessPopupOpen] = useState(false);
@@ -85,7 +84,6 @@ function App() {
         
         <Footer />
 
-        {/* 1. Modal de Login */}
         <PopupWithForm
           isOpen={isLoginOpen}
           onClose={() => setIsLoginOpen(false)}
@@ -98,7 +96,6 @@ function App() {
           />
         </PopupWithForm>
 
-        {/* 2. Modal de Registro */}
         <PopupWithForm
           isOpen={isRegisterOpen}
           onClose={() => setIsRegisterOpen(false)}
@@ -111,7 +108,6 @@ function App() {
           />
         </PopupWithForm>
 
-        {/* 3. Modal de Éxito (HERMANO, no hijo) */}
         <Popup
           isOpen={isSuccessPopupOpen}
           onClose={() => setIsSuccessPopupOpen(false)}
@@ -120,7 +116,6 @@ function App() {
           buttonText="Cerrar"
         />
 
-        {/* 4. Modal de Error del Servidor (HERMANO, no hijo) */}
         <Popup
           isOpen={isErrorPopupOpen}
           onClose={() => setIsErrorPopupOpen(false)}

@@ -7,14 +7,13 @@ function NewsCard({ image, date, title, text, source, url, loggedIn, onSave, onD
   const [isLocalSaved, setIsLocalSaved] = useState(isSaved || false);
 
   const handleBookmarkClick = () => {
-    if (!loggedIn) return; // Si no está logueado, no hace nada (ya muestra el tooltip)
+    if (!loggedIn) return;
 
     if (isLocalSaved) {
-      // Lógica para eliminar (se conectará con onDelete más tarde)
       setIsLocalSaved(false);
-      console.log("Eliminar artículo:", title);
+    
     } else {
-      // Lógica para guardar (se conectará con onSave más tarde)
+      
       setIsLocalSaved(true);
       console.log("Guardar artículo:", title);
     }

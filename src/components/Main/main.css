@@ -57,12 +57,11 @@
 }
 
 .main__results {
-  background-color: #F5F6F7; /* Color de fondo corregido */
+  background-color: #F5F6F7;
   padding: 60px 24px;
   min-height: 400px;
 }
 
-/* Loader con texto */
 .main__loader {
   display: flex;
   flex-direction: column;
@@ -96,7 +95,6 @@
   margin: 0;
 }
 
-/* Error */
 .main__error {
   text-align: center;
   color: #FF0000;
@@ -106,7 +104,6 @@
   margin: 0 auto;
 }
 
-/* No se encontraron resultados */
 .main__no-results {
   display: flex;
   flex-direction: column;
@@ -142,7 +139,6 @@
   max-width: 400px;
 }
 
-/* Responsive */
 @media screen and (max-width: 768px) {
   .main__hero {
     padding: 120px 20px 40px;

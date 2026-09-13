@@ -9,7 +9,6 @@ function NewsCardList({ cards, searchQuery, loggedIn }) {
     setVisibleCards(visibleCards + 3);
   };
 
-  // Si no hay tarjetas, no renderizar nada
   if (!cards || cards.length === 0) {
     return null;
   }

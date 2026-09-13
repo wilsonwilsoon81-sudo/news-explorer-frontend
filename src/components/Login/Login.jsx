@@ -23,20 +23,16 @@ function Login({ onLogin, onSwitchToRegister }) {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault(); // Evita la recarga
+    e.preventDefault();
     
     const newErrors = validateForm();
     setErrors(newErrors);
     
-    // ESTO ES PARA QUE TÚ VEAS EN LA CONSOLA QUE SÍ FUNCIONA:
-    console.log("Validación ejecutada. Errores encontrados:", newErrors);
-
     if (Object.keys(newErrors).length === 0) {
       onLogin(email, password);
     }
   };
 
-  // Solo para estilos visuales, NO deshabilitamos el botón HTML
   const isButtonActive = email.trim() && password.trim() && /\S+@\S+\.\S+/.test(email);
 
   return (
@@ -53,7 +49,6 @@ function Login({ onLogin, onSwitchToRegister }) {
             if (errors.email) setErrors({ ...errors, email: '' });
           }}
         />
-        {/* El mensaje de error solo se muestra si existe en el estado */}
         {errors.email && <p className="auth-form__error">{errors.email}</p>}
       </div>
       
@@ -72,7 +67,6 @@ function Login({ onLogin, onSwitchToRegister }) {
         {errors.password && <p className="auth-form__error">{errors.password}</p>}
       </div>
       
-      {/* Quitamos el atributo 'disabled' para que siempre se pueda hacer clic y validar */}
       <button 
         className={`auth-form__button ${!isButtonActive ? 'auth-form__button_disabled' : ''}`} 
         type="submit"

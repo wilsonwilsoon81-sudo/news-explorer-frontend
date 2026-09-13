@@ -27,7 +27,6 @@ function Main({ loggedIn }) {
         setSearchResults(data.articles);
       })
       .catch((err) => {
-        console.error('Error al buscar noticias:', err);
         setError('Lo sentimos, algo ha salido mal durante la solicitud. Es posible que haya un problema de conexión o que el servidor no funcione. Por favor, inténtalo más tarde.');
       })
       .finally(() => {
@@ -35,7 +34,6 @@ function Main({ loggedIn }) {
       });
   };
 
-  // Cargar datos del localStorage al montar
   useEffect(() => {
     const savedResults = localStorage.getItem('searchResults');
     const savedQuery = localStorage.getItem('searchQuery');
@@ -53,7 +51,6 @@ function Main({ loggedIn }) {
 
   return (
     <div className="main-page">
-      {/* Parte Superior: Hero con buscador */}
       <section className="main__hero">
         <h1 className="main__title">¿Qué está pasando en el mundo?</h1>
         <p className="main__subtitle">
@@ -63,7 +60,6 @@ function Main({ loggedIn }) {
         <SearchForm onSearch={handleSearch} />
       </section>
 
-      {/* Parte Inferior: Resultados de búsqueda */}
       {hasSearched && (
         <section className="main__results">
           {isLoading ? (
@@ -77,16 +73,11 @@ function Main({ loggedIn }) {
             </div>
           ) : searchResults.length === 0 ? (
             <div className="main__no-results">
-              {/* Icono de lupa triste (SVG) */}
 <svg className="main__no-results-icon" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
-  {/* Círculo de la lupa */}
   <circle cx="48" cy="48" r="40" stroke="#B6BCBF" strokeWidth="4" fill="none"/>
-  {/* Ojos tristes */}
   <circle cx="36" cy="40" r="4" fill="#B6BCBF"/>
   <circle cx="60" cy="40" r="4" fill="#B6BCBF"/>
-  {/* Boca triste (curva hacia abajo) */}
   <path d="M36 64 Q48 52 60 64" stroke="#B6BCBF" strokeWidth="4" strokeLinecap="round" fill="none"/>
-  {/* Mango de la lupa */}
   <line x1="78" y1="78" x2="99" y2="99" stroke="#B6BCBF" strokeWidth="4" strokeLinecap="round"/>
 </svg>
               <h3 className="main__no-results-title">No se encontró nada</h3>
@@ -104,7 +95,6 @@ function Main({ loggedIn }) {
         </section>
       )}
 
-      {/* Bloque Acerca del Autor */}
       <About />
     </div>
   );

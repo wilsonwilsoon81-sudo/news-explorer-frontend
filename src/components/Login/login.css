@@ -1,9 +1,7 @@
-/* src/components/Login/login.css */
 .auth-form {
   display: flex;
   flex-direction: column;
-  width: 100%; /* Ocupa todo el espacio disponible (358px por el padding del padre) */
-  /* ELIMINAMOS margin: 0 auto y max-width para evitar el centrado */
+  width: 100%;
 }
 
 .auth-form__title {
@@ -18,7 +16,7 @@
 }
 
 .auth-form__field {
-  width: 100%; /* Asegura que el campo ocupe todo el ancho */
+  width: 100%;
   margin-bottom: 26px;
   position: relative;
 }
@@ -49,7 +47,7 @@
   background-color: transparent;
   outline: none;
   box-sizing: border-box;
-  text-align: left; /* El texto que escribe el usuario va a la izquierda */
+  text-align: left;
 }
 
 .auth-form__input::placeholder {
@@ -79,7 +77,7 @@
 }
 
 .auth-form__button {
-  width: 100%; /* El botón ocupa todo el ancho disponible */
+  width: 100%;
   height: 64px;
   border: none;
   border-radius: 100px;
@@ -112,7 +110,7 @@
 
 .auth-form__switch {
   width: 100%;
-  text-align: center; /* Este texto SÍ va centrado */
+  text-align: center;
   margin-top: 24px;
 }
 

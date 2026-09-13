@@ -1,7 +1,7 @@
 .footer {
   background-color: #ffffff;
   width: 100%;
-  min-height: 80px; /* Cambiado de height a min-height para que no corte contenido */
+  min-height: 80px;
   display: flex;
   align-items: center;
   box-sizing: border-box;
@@ -16,7 +16,7 @@
   align-items: center;
   justify-content: space-between;
   box-sizing: border-box;
-  gap: 20px; /* Espacio mínimo entre elementos */
+  gap: 20px;
 }
 
 .footer__copyright {
@@ -26,20 +26,18 @@
   line-height: 22px;
   color: #B6BCBF;
   margin: 0;
-  
-  /* AGREGA ESTAS LÍNEAS PARA FORZAR SU POSICIÓN */
-  position: static !important; /* Anula cualquier position: absolute/fixed heredada */
+  position: static !important;
   flex-shrink: 0;
   white-space: nowrap;
   min-width: 200px;
-  z-index: 1; /* Asegura que esté por encima de otros elementos si hay superposición */
+  z-index: 1;
 }
 
 .footer__right-content {
   display: flex;
   align-items: center;
   gap: 40px;
-  flex-shrink: 0; /* Evita que se encoja */
+  flex-shrink: 0;
 }
 
 .footer__nav {

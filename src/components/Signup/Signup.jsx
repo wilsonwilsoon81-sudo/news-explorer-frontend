@@ -7,7 +7,6 @@ function Signup({ onRegister, onSwitchToLogin }) {
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
 
-  // Validación de formato de email
   const isEmailValid = /\S+@\S+\.\S+/.test(email);
 
   const validateForm = () => {
@@ -23,12 +22,10 @@ function Signup({ onRegister, onSwitchToLogin }) {
       newErrors.password = 'Este es un campo obligatorio.';
     }
     
-    // El nombre solo es obligatorio si el email ya es válido (porque el campo aparece entonces)
     if (isEmailValid && !name.trim()) {
       newErrors.name = 'Este es un campo obligatorio.';
     }
 
-    // MOCK: Simulamos un error de servidor (email ya registrado) para que veas cómo se ve en el Figma
     if (email === 'test@test.com') {
       newErrors.email = 'Este correo electrónico no está disponible';
     }
@@ -46,12 +43,10 @@ function Signup({ onRegister, onSwitchToLogin }) {
     }
   };
 
-  // El botón se activa solo si todos los campos visibles son válidos
   const isButtonActive = isEmailValid && password.trim() && (isEmailValid ? name.trim() : true);
 
   return (
     <form className="auth-form" onSubmit={handleSubmit} noValidate>
-      {/* Campo Email */}
       <div className="auth-form__field">
         <label className="auth-form__label">Correo electrónico</label>
         <input 
@@ -67,7 +62,6 @@ function Signup({ onRegister, onSwitchToLogin }) {
         {errors.email && <p className="auth-form__error">{errors.email}</p>}
       </div>
       
-      {/* Campo Contraseña */}
       <div className="auth-form__field">
         <label className="auth-form__label">Contraseña</label>
         <input 
@@ -83,7 +77,6 @@ function Signup({ onRegister, onSwitchToLogin }) {
         {errors.password && <p className="auth-form__error">{errors.password}</p>}
       </div>
 
-      {/* Campo Nombre: SOLO aparece si el email es válido */}
       {isEmailValid && (
         <div className="auth-form__field">
           <label className="auth-form__label">Nombre de usuario</label>
@@ -101,7 +94,6 @@ function Signup({ onRegister, onSwitchToLogin }) {
         </div>
       )}
       
-      {/* Botón de envío */}
       <button 
         className={`auth-form__button ${!isButtonActive ? 'auth-form__button_disabled' : ''}`} 
         type="submit"

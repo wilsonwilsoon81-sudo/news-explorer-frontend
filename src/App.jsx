@@ -77,7 +77,7 @@ function App() {
         
         <main className="content">
           <Routes>
-            <Route path="/" element={<Main />} />
+            <Route path="/" element={<Main loggedIn={loggedIn} />} />
             <Route path="/saved-news" element={<SavedNews />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>

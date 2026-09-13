@@ -2,18 +2,22 @@
   background-color: #ffffff;
   padding: 80px 104px;
   width: 100%;
+  max-width: 100%;
   min-height: 624px;
   display: flex;
   align-items: center;
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 .about__container {
   max-width: 1440px;
+  width: 100%;
   margin: 0 auto;
   display: flex;
   align-items: center;
   gap: 56px;
-  width: 100%;
+  box-sizing: border-box;
 }
 
 .about__image-container {

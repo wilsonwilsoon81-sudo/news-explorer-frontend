@@ -2,39 +2,38 @@ import { useState } from 'react';
 import './searchform.css';
 
 function SearchForm({ onSearch }) {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [isFormValid, setIsFormValid] = useState(false);
-
-  const handleChange = (e) => {
-    const value = e.target.value;
-    setSearchTerm(value);
-    setIsFormValid(value.trim().length >= 2);
-  };
+  const [keyword, setKeyword] = useState('');
+  const [error, setError] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (isFormValid && onSearch) {
-      onSearch(searchTerm);
+    
+    // Validación exacta del brief
+    if (!keyword.trim()) {
+      setError('Por favor, introduzca una palabra clave');
+      return;
     }
+    
+    setError(''); // Limpiar error si es válido
+    onSearch(keyword);
   };
 
   return (
     <form className="search-form" onSubmit={handleSubmit}>
-      <input
-        className="search-form__input"
-        type="text"
-        placeholder="Introduce una palabra clave para buscar noticias"
-        value={searchTerm}
-        onChange={handleChange}
-        required
+      <input 
+        className="search-form__input" 
+        type="text" 
+        placeholder="Introduce un tema" 
+        value={keyword}
+        onChange={(e) => {
+          setKeyword(e.target.value);
+          if (error) setError(''); // Limpiar error al escribir
+        }}
       />
-      <button 
-        className={`search-form__button ${!isFormValid ? 'search-form__button_disabled' : ''}`} 
-        type="submit"
-        disabled={!isFormValid}
-      >
+      <button className="search-form__button" type="submit">
         Buscar
       </button>
+      {error && <p className="search-form__error">{error}</p>}
     </form>
   );
 }

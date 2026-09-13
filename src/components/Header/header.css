@@ -1,8 +1,8 @@
 .header {
   width: 100%;
   height: 80px;
-  background: rgba(196, 196, 196, 0.01); /* #C4C4C403 */
-  box-shadow: 0px -1px 0px 0px rgba(255, 255, 255, 0.2) inset; /* #FFFFFF33 */
+  background: rgba(196, 196, 196, 0.01);
+  box-shadow: 0px -1px 0px 0px rgba(255, 255, 255, 0.2) inset;
   position: fixed;
   top: 0;
   left: 0;
@@ -123,21 +123,93 @@
   opacity: 0.8;
 }
 
+.header__burger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  height: 20px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 101;
+}
+
+.header__burger-line {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background-color: #ffffff;
+  transition: all 0.3s ease;
+}
+
+.header__burger_active .header__burger-line:nth-child(1) {
+  transform: translateY(9px) rotate(45deg);
+}
+.header__burger_active .header__burger-line:nth-child(2) {
+  opacity: 0;
+}
+.header__burger_active .header__burger-line:nth-child(3) {
+  transform: translateY(-9px) rotate(-45deg);
+}
+
+@media screen and (max-width: 1024px) {
+  .header__container {
+    padding: 0 40px;
+  }
+
+  .header__nav {
+    display: none; 
+  }
+
+  .header__nav_active {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 80px;
+    left: 0;
+    width: 100%;
+    background-color: #1A1B22;
+    padding: 30px 40px;
+    box-sizing: border-box;
+    gap: 24px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    z-index: 100;
+  }
+
+  .header__nav_active .header__link {
+    font-size: 20px;
+    padding: 10px 0;
+  }
+
+  .header__nav_active .header__link_active::after {
+    display: none;
+  }
+
+  .header__email {
+    font-size: 16px;
+    margin: 10px 0;
+    opacity: 1;
+  }
+
+  .header__button_type_login {
+    width: 100%;
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  .header__burger {
+    display: flex;
+  }
+}
+
 @media screen and (max-width: 768px) {
   .header__container {
     padding: 0 24px;
   }
   
-  .header__nav {
-    gap: 20px;
-  }
-  
-  .header__email {
-    display: none;
-  }
-  
-  .header__button_type_login {
-    width: auto;
-    padding: 8px 16px;
+  .header__nav_active {
+    padding: 20px 24px;
   }
 }

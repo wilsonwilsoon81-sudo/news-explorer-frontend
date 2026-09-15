@@ -3,22 +3,22 @@ import NewsCardList from '../NewsCardList/NewsCardList';
 import './savednews.css';
 
 function SavedNews() {
-  const savedArticles = [
+  const mockSavedArticles = [
     {
       id: 101,
-      image: "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=800&q=80",
-      date: "05 de septiembre, 2026",
+      urlToImage: "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=800&q=80",
+      publishedAt: "05 de septiembre, 2026",
       title: "Noticia guardada sobre tecnología",
-      text: "Este es un artículo que el usuario decidió guardar para leer después.",
-      source: "Tech Daily"
+      description: "Este es un artículo que el usuario decidió guardar para leer después.",
+      source: { name: "Tech Daily" }
     },
     {
       id: 102,
-      image: "https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=800&q=80",
-      date: "04 de septiembre, 2026",
+      urlToImage: "https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=800&q=80",
+      publishedAt: "04 de septiembre, 2026",
       title: "Otra noticia interesante guardada",
-      text: "El usuario buscó 'tecnología' y guardó este artículo de la lista de resultados.",
-      source: "Global News"
+      description: "El usuario buscó 'tecnología' y guardó este artículo de la lista de resultados.",
+      source: { name: "Global News" }
     }
   ];
 
@@ -27,10 +27,10 @@ function SavedNews() {
   return (
     <section className="saved-news">
       <SavedNewsHeader 
-        articlesLength={savedArticles.length} 
+        articlesLength={mockSavedArticles.length} 
         searchQuery={searchQuery} 
       />
-      <NewsCardList cards={savedArticles} />
+      <NewsCardList cards={mockSavedArticles} />
     </section>
   );
 }

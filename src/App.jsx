@@ -44,8 +44,7 @@ function App() {
     setIsLoginOpen(false);
   };
 
-  const handleLoginSubmit = (email, password) => {
-    console.log("Login enviado:", email);
+  const handleLoginSubmit = (email, _password) => {
     setSuccessMessage("Inicio de sesión exitoso");
     setIsSuccessPopupOpen(true);
     setIsLoginOpen(false);
@@ -53,8 +52,7 @@ function App() {
     setCurrentUserEmail(email);
   };
 
-  const handleRegisterSubmit = (name, email, password) => {
-    console.log("Registro enviado:", name, email);
+  const handleRegisterSubmit = (_name, _email, _password) => {
     setSuccessMessage("Usuario registrado. Inicie sesión.");
     setIsSuccessPopupOpen(true);
     setIsRegisterOpen(false);

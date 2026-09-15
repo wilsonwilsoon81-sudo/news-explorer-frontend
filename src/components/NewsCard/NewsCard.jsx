@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { formatDate } from '../../utils/dateFormatter';
 import './newscard.css';
 
-function NewsCard({ image, date, title, text, source, url, loggedIn, onSave, onDelete, isSaved }) {
+function NewsCard({ image, date, title, text, source, url, loggedIn, _onSave, _onDelete, isSaved }) {
   const formattedDate = date ? formatDate(date) : '';
   const [isLocalSaved, setIsLocalSaved] = useState(isSaved || false);
 
@@ -41,7 +41,9 @@ function NewsCard({ image, date, title, text, source, url, loggedIn, onSave, onD
       
       <div className="news-card__content">
         <p className="news-card__date">{formattedDate}</p>
+        <a href={url} target="_blank" rel="noopener noreferrer" className="news-card__link">
         <h3 className="news-card__title">{title}</h3>
+        </a>
         <p className="news-card__text">{text}</p>
         <p className="news-card__source">{source}</p>
       </div>

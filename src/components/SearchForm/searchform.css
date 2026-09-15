@@ -1,12 +1,15 @@
 .search-form__error {
   position: absolute;
-  bottom: -25px;
+  bottom: -30px;
   left: 50%;
   transform: translateX(-50%);
   color: #FF0000;
-  font-size: 12px;
+  font-size: 14px;
   margin: 0;
   white-space: nowrap;
+  background-color: rgba(26, 27, 34, 0.8);
+  padding: 4px 8px;
+  border-radius: 4px;
 }
 
 .search-form {
@@ -20,8 +23,9 @@
   border: 1px solid #D1D2D6;
   border-radius: 100px;
   padding: 0;
-  overflow: hidden;
+  overflow: visible;
   box-sizing: border-box;
+  margin-bottom: 40px;
 }
 
 .search-form__input {

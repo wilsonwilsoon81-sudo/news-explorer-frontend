@@ -1,30 +1,22 @@
 import { useState } from 'react';
 import './login.css';
 
-function Login({ onLogin, onSwitchToRegister }) {
+function Login({ onLogin, onSwitchToRegister, errorMessage }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
 
   const validateForm = () => {
     const newErrors = {};
+    if (!email.trim()) newErrors.email = 'Este es un campo obligatorio.';
+    else if (!/\S+@\S+\.\S+/.test(email)) newErrors.email = 'Formato de correo electrónico incorrecto';
     
-    if (!email.trim()) {
-      newErrors.email = 'Este es un campo obligatorio.';
-    } else if (!/\S+@\S+\.\S+/.test(email)) {
-      newErrors.email = 'Formato de correo electrónico incorrecto';
-    }
-    
-    if (!password.trim()) {
-      newErrors.password = 'Este es un campo obligatorio.';
-    }
-    
+    if (!password.trim()) newErrors.password = 'Este es un campo obligatorio.';
     return newErrors;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
     const newErrors = validateForm();
     setErrors(newErrors);
     
@@ -66,6 +58,8 @@ function Login({ onLogin, onSwitchToRegister }) {
         />
         {errors.password && <p className="auth-form__error">{errors.password}</p>}
       </div>
+      
+      {errorMessage && <p className="auth-form__error" style={{ textAlign: 'center', marginBottom: '10px' }}>{errorMessage}</p>}
       
       <button 
         className={`auth-form__button ${!isButtonActive ? 'auth-form__button_disabled' : ''}`} 

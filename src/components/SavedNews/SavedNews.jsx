@@ -1,36 +1,83 @@
+import { useState, useEffect } from 'react';
+import * as mainApi from '../../utils/MainApi';
 import SavedNewsHeader from '../SavedNewsHeader/SavedNewsHeader';
 import NewsCardList from '../NewsCardList/NewsCardList';
+import Preloader from '../Preloader/Preloader';
 import './savednews.css';
 
 function SavedNews() {
-  const mockSavedArticles = [
-    {
-      id: 101,
-      urlToImage: "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=800&q=80",
-      publishedAt: "2026-09-07T12:00:00Z",
-      title: "Noticia guardada sobre tecnología",
-      description: "Este es un artículo que el usuario decidió guardar para leer después.",
-      source: { name: "Tech Daily" }
-    },
-    {
-      id: 102,
-      urlToImage: "https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=800&q=80",
-      publishedAt: "2026-09-04T12:00:00Z",
-      title: "Otra noticia interesante guardada",
-      description: "El usuario buscó 'tecnología' y guardó este artículo de la lista de resultados.",
-      source: { name: "Global News" }
-    }
-  ];
+  const [articles, setArticles] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState('');
 
-  const searchQuery = "tecnología";
+  useEffect(() => {
+    mainApi.getSavedArticles()
+      .then((data) => {
+        setArticles(data);
+      })
+      .catch((err) => {
+        console.error('Error al cargar artículos guardados:', err);
+        setError('No se pudieron cargar los artículos guardados.');
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, []);
+
+  const handleDeleteArticle = (articleId) => {
+    mainApi.deleteArticle(articleId)
+      .then(() => {
+        setArticles((prevArticles) => prevArticles.filter((article) => article._id !== articleId));
+      })
+      .catch((err) => {
+        console.error('Error al eliminar el artículo:', err);
+        alert('No se pudo eliminar el artículo. Inténtalo de nuevo.');
+      });
+  };
+
+  const getFormattedKeywords = () => {
+    if (articles.length === 0) return '';
+
+    const keywordCounts = {};
+    articles.forEach((article) => {
+      const kw = article.keyword ? article.keyword.toLowerCase() : 'sin tema';
+      keywordCounts[kw] = (keywordCounts[kw] || 0) + 1;
+    });
+
+    const sortedKeywords = Object.entries(keywordCounts)
+      .sort((a, b) => b[1] - a[1])
+      .map((entry) => entry[0]);
+
+    if (sortedKeywords.length <= 3) {
+      return sortedKeywords.join(', ');
+    } else {
+      const firstTwo = sortedKeywords.slice(0, 2).join(', ');
+      const remaining = sortedKeywords.length - 2;
+      return `${firstTwo} y ${remaining} más`;
+    }
+  };
+
+  if (isLoading) {
+    return <Preloader />;
+  }
+
+  if (error) {
+    return <div className="saved-news__error">{error}</div>;
+  }
 
   return (
     <section className="saved-news">
       <SavedNewsHeader 
-        articlesLength={mockSavedArticles.length} 
-        searchQuery={searchQuery} 
+        articlesLength={articles.length} 
+        searchQuery={getFormattedKeywords()}
       />
-      <NewsCardList cards={mockSavedArticles} />
+      
+      <NewsCardList 
+        cards={articles} 
+        loggedIn={true}
+        isSavedPage={true}
+        onDelete={handleDeleteArticle}
+      />
     </section>
   );
 }

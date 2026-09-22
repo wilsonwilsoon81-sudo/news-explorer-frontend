@@ -4,6 +4,7 @@ import SearchForm from '../SearchForm/SearchForm';
 import NewsCardList from '../NewsCardList/NewsCardList';
 import About from '../About/About';
 import newsApi from '../../utils/NewsApi';
+import * as mainApi from '../../utils/MainApi';
 
 const getInitialSearchState = () => {
   const savedResults = localStorage.getItem('searchResults');
@@ -41,17 +42,48 @@ function Main({ loggedIn }) {
 
     newsApi.getNews(keyword)
       .then((data) => {
-        localStorage.setItem('searchResults', JSON.stringify(data.articles));
+        const articlesWithSavedFlag = data.articles.map(article => ({ ...article, isSaved: false }));
+        
+        localStorage.setItem('searchResults', JSON.stringify(articlesWithSavedFlag));
         localStorage.setItem('searchQuery', keyword);
         localStorage.setItem('searchDate', new Date().toISOString());
         
-        setSearchResults(data.articles);
+        setSearchResults(articlesWithSavedFlag);
       })
       .catch((_err) => {
         setError('Lo sentimos, algo ha salido mal durante la solicitud. Es posible que haya un problema de conexión o que el servidor no funcione. Por favor, inténtalo más tarde.');
       })
       .finally(() => {
         setIsLoading(false);
+      });
+  };
+
+  const handleSave = (article) => {
+    const articleData = {
+      keyword: searchQuery,
+      title: article.title,
+      text: article.description,
+      date: article.publishedAt,
+      source: article.source?.name || 'Fuente desconocida',
+      link: article.url,
+      image: article.urlToImage
+    };
+
+    mainApi.saveArticle(articleData)
+      .then(() => {
+        setSearchResults(prevResults => 
+          prevResults.map(item => 
+            item.url === article.url ? { ...item, isSaved: true } : item
+          )
+        );
+      })
+      .catch((err) => {
+        console.error('Error al guardar el artículo:', err);
+        if (!loggedIn) {
+          alert('Debes iniciar sesión para guardar artículos.');
+        } else {
+          alert('No se pudo guardar el artículo. Inténtalo de nuevo.');
+        }
       });
   };
 
@@ -96,6 +128,7 @@ function Main({ loggedIn }) {
               cards={searchResults} 
               searchQuery={searchQuery}
               loggedIn={loggedIn}
+              onSave={handleSave}
             />
           )}
         </section>

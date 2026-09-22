@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-
+import CurrentUserContext from './utils/CurrentUserContext';
+import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
+import * as mainApi from './utils/MainApi';
 import Header from './components/Header/Header';
 import Main from './components/Main/Main';
 import Footer from './components/Footer/Footer';
@@ -12,50 +14,90 @@ import Signup from './components/Signup/Signup';
 import Popup from './components/Popup/Popup';
 
 function App() {
-  const [isLoading, setIsLoading] = useState(true);
   const [loggedIn, setLoggedIn] = useState(false);
-  const [currentUserEmail, setCurrentUserEmail] = useState('');
-
+  const [currentUser, setCurrentUser] = useState({ name: '', email: '' });
+  const [isLoading, setIsLoading] = useState(true);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const [isSuccessPopupOpen, setIsSuccessPopupOpen] = useState(false);
   const [isErrorPopupOpen, setIsErrorPopupOpen] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 1500);
-    return () => clearTimeout(timer);
+    const token = localStorage.getItem('jwt');
+    
+    if (!token) {
+      Promise.resolve().then(() => setIsLoading(false));
+      return;
+    }
+
+    mainApi.checkToken()
+      .then((userData) => {
+        setCurrentUser({ name: userData.name, email: userData.email });
+        setLoggedIn(true);
+      })
+      .catch((err) => {
+        console.error('Token inválido o expirado:', err);
+        localStorage.removeItem('jwt');
+        setLoggedIn(false);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }, []);
 
+  const handleLoginSubmit = (email, password) => {
+    setErrorMessage('');
+    mainApi.login(email, password)
+      .then((data) => {
+        if (data.token) {
+          localStorage.setItem('jwt', data.token);
+          return mainApi.checkToken();
+        }
+      })
+      .then((userData) => {
+        setCurrentUser({ name: userData.name, email: userData.email });
+        setLoggedIn(true);
+        setIsLoginOpen(false);
+        setSuccessMessage('Inicio de sesión exitoso');
+        setIsSuccessPopupOpen(true);
+      })
+      .catch((err) => {
+        console.error('Error al iniciar sesión:', err);
+        setErrorMessage(err.message || 'Correo o contraseña incorrectos');
+      });
+  };
+
+  const handleRegisterSubmit = (name, email, password) => {
+    setErrorMessage('');
+    mainApi.register(name, email, password)
+      .then(() => {
+        return mainApi.login(email, password);
+      })
+      .then((data) => {
+        if (data.token) {
+          localStorage.setItem('jwt', data.token);
+          return mainApi.checkToken();
+        }
+      })
+      .then((userData) => {
+        setCurrentUser({ name: userData.name, email: userData.email });
+        setLoggedIn(true);
+        setIsRegisterOpen(false);
+        setSuccessMessage('Usuario registrado e iniciado sesión exitosamente');
+        setIsSuccessPopupOpen(true);
+      })
+      .catch((err) => {
+        console.error('Error al registrarse:', err);
+        setErrorMessage(err.message || 'Error al registrarse. ¿El correo ya existe?');
+      });
+  };
+
   const handleSignOut = () => {
+    localStorage.removeItem('jwt');
     setLoggedIn(false);
-    setCurrentUserEmail('');
-  };
-
-  const openLoginModal = () => {
-    setIsLoginOpen(true);
-    setIsRegisterOpen(false);
-  };
-
-  const openRegisterModal = () => {
-    setIsRegisterOpen(true);
-    setIsLoginOpen(false);
-  };
-
-  const handleLoginSubmit = (email, _password) => {
-    setSuccessMessage("Inicio de sesión exitoso");
-    setIsSuccessPopupOpen(true);
-    setIsLoginOpen(false);
-    setLoggedIn(true);
-    setCurrentUserEmail(email);
-  };
-
-  const handleRegisterSubmit = (_name, _email, _password) => {
-    setSuccessMessage("Usuario registrado. Inicie sesión.");
-    setIsSuccessPopupOpen(true);
-    setIsRegisterOpen(false);
+    setCurrentUser({ name: '', email: '' });
   };
 
   if (isLoading) {
@@ -63,67 +105,99 @@ function App() {
   }
 
   return (
-    <BrowserRouter>
-      <div className="page">
-        <Header 
-          loggedIn={loggedIn} 
-          email={currentUserEmail} 
-          onSignOut={handleSignOut} 
-          onLoginClick={openLoginModal}
-        />
-        
-        <main className="content">
-          <Routes>
-            <Route path="/" element={<Main loggedIn={loggedIn} />} />
-            <Route path="/saved-news" element={<SavedNews />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-        </main>
-        
-        <Footer />
-
-        <PopupWithForm
-          isOpen={isLoginOpen}
-          onClose={() => setIsLoginOpen(false)}
-          title="Iniciar sesión"
-          name="login"
-        >
-          <Login 
-            onLogin={handleLoginSubmit} 
-            onSwitchToRegister={openRegisterModal} 
+    <CurrentUserContext.Provider value={{ currentUser, setCurrentUser }}>
+      <BrowserRouter>
+        <div className="page">
+          <Header 
+            loggedIn={loggedIn} 
+            email={currentUser.email} 
+            onSignOut={handleSignOut} 
+            onLoginClick={() => {
+              setIsLoginOpen(true);
+              setIsRegisterOpen(false);
+              setErrorMessage('');
+            }}
           />
-        </PopupWithForm>
+          
+          <main className="content">
+            <Routes>
+              <Route path="/" element={<Main loggedIn={loggedIn} onLoginClick={() => setIsLoginOpen(true)} />} />
+              
+              <Route 
+                path="/saved-news" 
+                element={
+                  <ProtectedRoute 
+                    component={SavedNews} 
+                    loggedIn={loggedIn} 
+                  />
+                } 
+              />
+              
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </main>
+          
+          <Footer />
 
-        <PopupWithForm
-          isOpen={isRegisterOpen}
-          onClose={() => setIsRegisterOpen(false)}
-          title="Inscribirse"
-          name="register"
-        >
-          <Signup 
-            onRegister={handleRegisterSubmit} 
-            onSwitchToLogin={openLoginModal} 
+          <PopupWithForm
+            isOpen={isLoginOpen}
+            onClose={() => {
+              setIsLoginOpen(false);
+              setErrorMessage('');
+            }}
+            title="Iniciar sesión"
+            name="login"
+          >
+            <Login 
+              onLogin={handleLoginSubmit} 
+              onSwitchToRegister={() => {
+                setIsLoginOpen(false);
+                setIsRegisterOpen(true);
+                setErrorMessage('');
+              }}
+              errorMessage={errorMessage}
+            />
+          </PopupWithForm>
+
+          <PopupWithForm
+            isOpen={isRegisterOpen}
+            onClose={() => {
+              setIsRegisterOpen(false);
+              setErrorMessage('');
+            }}
+            title="Inscribirse"
+            name="register"
+          >
+            <Signup 
+              onRegister={handleRegisterSubmit} 
+              onSwitchToLogin={() => {
+                setIsRegisterOpen(false);
+                setIsLoginOpen(true);
+                setErrorMessage('');
+              }}
+              errorMessage={errorMessage}
+            />
+          </PopupWithForm>
+
+          <Popup
+            isOpen={isSuccessPopupOpen}
+            onClose={() => setIsSuccessPopupOpen(false)}
+            title="¡Éxito!"
+            text={successMessage}
+            buttonText="Cerrar"
           />
-        </PopupWithForm>
 
-        <Popup
-          isOpen={isSuccessPopupOpen}
-          onClose={() => setIsSuccessPopupOpen(false)}
-          title="¡Éxito!"
-          text={successMessage}
-          buttonText="Cerrar"
-        />
+          <Popup
+            isOpen={isErrorPopupOpen}
+            onClose={() => setIsErrorPopupOpen(false)}
+            title="Ha ocurrido un error"
+            text={errorMessage || "Por favor, inténtelo de nuevo más tarde."}
+            buttonText="Cerrar"
+          />
 
-        <Popup
-          isOpen={isErrorPopupOpen}
-          onClose={() => setIsErrorPopupOpen(false)}
-          title="Ha ocurrido un error"
-          text="Por favor, inténtelo de nuevo más tarde."
-          buttonText="Cerrar"
-        />
-
-      </div>
-    </BrowserRouter>
+        </div>
+      </BrowserRouter>
+    </CurrentUserContext.Provider>
   );
 }
 

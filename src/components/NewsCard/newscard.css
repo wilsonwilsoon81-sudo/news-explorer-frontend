@@ -139,13 +139,64 @@
   visibility: visible;
 }
 
-.news-card__bookmark-button_active {
-  color: #2F71E5 !important;
+.news-card__bookmark-button_active .news-card__icon-bookmark {
+  color: #2F71E5;
+  fill: #2F71E5;
+  stroke: #2F71E5;
 }
 
-.news-card__bookmark-button_active svg {
-  fill: #2F71E5 !important;
-  stroke: #2F71E5 !important;
+.news-card__bookmark-button_active .news-card__icon-trash {
+  color: #C4C4C466;
+  fill: none;
+  stroke: #C4C4C466;
+}
+
+.news-card__bookmark-button_active:hover .news-card__icon-trash {
+  color: #000000 !important;
+  fill: none !important;
+  stroke: #000000 !important;
+}
+
+.news-card__bookmark-button_active:hover {
+  color: #000000 !important;
+}
+
+.news-card__bookmark-button_active:hover svg {
+  fill: none !important;
+  stroke: #000000 !important;
+  color: #000000 !important;
+}
+
+.news-card__tooltip-remove {
+  position: absolute;
+  right: calc(100% + 12px);
+  top: 50%;
+  transform: translateY(-50%);
+  
+  background-color: #FFFFFF;
+  color: #000000;
+  
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  text-align: center;
+  white-space: nowrap;
+  
+  padding: 6px 10px;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+  pointer-events: none;
+  z-index: 20;
+}
+
+.news-card__bookmark-button_active:hover .news-card__tooltip-remove {
+  opacity: 1;
+  visibility: visible;
 }
 
 .news-card__link {
@@ -161,6 +212,21 @@
 
 .news-card__link:hover {
   cursor: pointer;
+}
+
+.news-card__keyword {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: #1A1B22;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: capitalize;
+  z-index: 10;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 @media screen and (max-width: 768px) {
@@ -181,6 +247,10 @@
     font-size: 13px;
     -webkit-line-clamp: 2;
     line-clamp: 2;
+  }
+
+  .news-card__tooltip-remove {
+    display: none;
   }
 }
 

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './signup.css';
 
-function Signup({ onRegister, onSwitchToLogin }) {
+function Signup({ onRegister, onSwitchToLogin, errorMessage }) { // <-- Agregamos errorMessage
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -24,6 +24,8 @@ function Signup({ onRegister, onSwitchToLogin }) {
     
     if (isEmailValid && !name.trim()) {
       newErrors.name = 'Este es un campo obligatorio.';
+    } else if (isEmailValid && name.trim().length < 2) {
+      newErrors.name = 'El nombre debe tener al menos 2 caracteres.';
     }
 
     if (email === 'test@test.com') {
@@ -31,7 +33,7 @@ function Signup({ onRegister, onSwitchToLogin }) {
     }
 
     return newErrors;
-  };
+    };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -43,7 +45,7 @@ function Signup({ onRegister, onSwitchToLogin }) {
     }
   };
 
-  const isButtonActive = isEmailValid && password.trim() && (isEmailValid ? name.trim() : true);
+  const isButtonActive = isEmailValid && password.trim() && (isEmailValid ? name.trim().length >= 2 : true);
 
   return (
     <form className="auth-form" onSubmit={handleSubmit} noValidate>
@@ -93,6 +95,8 @@ function Signup({ onRegister, onSwitchToLogin }) {
           {errors.name && <p className="auth-form__error">{errors.name}</p>}
         </div>
       )}
+      
+      {errorMessage && <p className="auth-form__error" style={{ textAlign: 'center', marginBottom: '10px' }}>{errorMessage}</p>}
       
       <button 
         className={`auth-form__button ${!isButtonActive ? 'auth-form__button_disabled' : ''}`} 

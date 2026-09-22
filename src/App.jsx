@@ -1,122 +1,130 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import { useState, useEffect } from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+
+import Header from './components/Header/Header';
+import Main from './components/Main/Main';
+import Footer from './components/Footer/Footer';
+import SavedNews from './components/SavedNews/SavedNews';
+import Preloader from './components/Preloader/Preloader';
+import PopupWithForm from './components/PopupWithForm/PopupWithForm';
+import Login from './components/Login/Login';
+import Signup from './components/Signup/Signup';
+import Popup from './components/Popup/Popup';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [isLoading, setIsLoading] = useState(true);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [currentUserEmail, setCurrentUserEmail] = useState('');
+
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isRegisterOpen, setIsRegisterOpen] = useState(false);
+  const [isSuccessPopupOpen, setIsSuccessPopupOpen] = useState(false);
+  const [isErrorPopupOpen, setIsErrorPopupOpen] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const handleSignOut = () => {
+    setLoggedIn(false);
+    setCurrentUserEmail('');
+  };
+
+  const openLoginModal = () => {
+    setIsLoginOpen(true);
+    setIsRegisterOpen(false);
+  };
+
+  const openRegisterModal = () => {
+    setIsRegisterOpen(true);
+    setIsLoginOpen(false);
+  };
+
+  const handleLoginSubmit = (email, _password) => {
+    setSuccessMessage("Inicio de sesión exitoso");
+    setIsSuccessPopupOpen(true);
+    setIsLoginOpen(false);
+    setLoggedIn(true);
+    setCurrentUserEmail(email);
+  };
+
+  const handleRegisterSubmit = (_name, _email, _password) => {
+    setSuccessMessage("Usuario registrado. Inicie sesión.");
+    setIsSuccessPopupOpen(true);
+    setIsRegisterOpen(false);
+  };
+
+  if (isLoading) {
+    return <Preloader />;
+  }
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
+    <BrowserRouter>
+      <div className="page">
+        <Header 
+          loggedIn={loggedIn} 
+          email={currentUserEmail} 
+          onSignOut={handleSignOut} 
+          onLoginClick={openLoginModal}
+        />
+        
+        <main className="content">
+          <Routes>
+            <Route path="/" element={<Main loggedIn={loggedIn} />} />
+            <Route path="/saved-news" element={<SavedNews />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </main>
+        
+        <Footer />
+
+        <PopupWithForm
+          isOpen={isLoginOpen}
+          onClose={() => setIsLoginOpen(false)}
+          title="Iniciar sesión"
+          name="login"
         >
-          Count is {count}
-        </button>
-      </section>
+          <Login 
+            onLogin={handleLoginSubmit} 
+            onSwitchToRegister={openRegisterModal} 
+          />
+        </PopupWithForm>
 
-      <div className="ticks"></div>
+        <PopupWithForm
+          isOpen={isRegisterOpen}
+          onClose={() => setIsRegisterOpen(false)}
+          title="Inscribirse"
+          name="register"
+        >
+          <Signup 
+            onRegister={handleRegisterSubmit} 
+            onSwitchToLogin={openLoginModal} 
+          />
+        </PopupWithForm>
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+        <Popup
+          isOpen={isSuccessPopupOpen}
+          onClose={() => setIsSuccessPopupOpen(false)}
+          title="¡Éxito!"
+          text={successMessage}
+          buttonText="Cerrar"
+        />
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+        <Popup
+          isOpen={isErrorPopupOpen}
+          onClose={() => setIsErrorPopupOpen(false)}
+          title="Ha ocurrido un error"
+          text="Por favor, inténtelo de nuevo más tarde."
+          buttonText="Cerrar"
+        />
+
+      </div>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;

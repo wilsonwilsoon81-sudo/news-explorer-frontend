@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+
 import CurrentUserContext from './utils/CurrentUserContext';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import * as mainApi from './utils/MainApi';
+
 import Header from './components/Header/Header';
 import Main from './components/Main/Main';
 import Footer from './components/Footer/Footer';
@@ -14,19 +16,20 @@ import Signup from './components/Signup/Signup';
 import Popup from './components/Popup/Popup';
 
 function App() {
+  const location = useLocation();
+  
   const [loggedIn, setLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({ name: '', email: '' });
+  
   const [isLoading, setIsLoading] = useState(true);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const [isSuccessPopupOpen, setIsSuccessPopupOpen] = useState(false);
-  const [isErrorPopupOpen, setIsErrorPopupOpen] = useState(false);
-  const [successMessage, setSuccessMessage] = useState('');
+  
   const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     const token = localStorage.getItem('jwt');
-    
     if (!token) {
       Promise.resolve().then(() => setIsLoading(false));
       return;
@@ -46,6 +49,16 @@ function App() {
         setIsLoading(false);
       });
   }, []);
+
+  useEffect(() => {
+    if (location.state?.openLogin) {
+      Promise.resolve().then(() => {
+        setIsLoginOpen(true);
+      });
+      
+      window.history.replaceState({}, document.title);
+    }
+  }, [location.state]);
 
   const handleLoginSubmit = (email, password) => {
     setErrorMessage('');
@@ -72,9 +85,7 @@ function App() {
   const handleRegisterSubmit = (name, email, password) => {
     setErrorMessage('');
     mainApi.register(name, email, password)
-      .then(() => {
-        return mainApi.login(email, password);
-      })
+      .then(() => mainApi.login(email, password))
       .then((data) => {
         if (data.token) {
           localStorage.setItem('jwt', data.token);
@@ -121,7 +132,7 @@ function App() {
           
           <main className="content">
             <Routes>
-              <Route path="/" element={<Main loggedIn={loggedIn} onLoginClick={() => setIsLoginOpen(true)} />} />
+              <Route path="/" element={<Main loggedIn={loggedIn} />} />
               
               <Route 
                 path="/saved-news" 
@@ -184,14 +195,6 @@ function App() {
             onClose={() => setIsSuccessPopupOpen(false)}
             title="¡Éxito!"
             text={successMessage}
-            buttonText="Cerrar"
-          />
-
-          <Popup
-            isOpen={isErrorPopupOpen}
-            onClose={() => setIsErrorPopupOpen(false)}
-            title="Ha ocurrido un error"
-            text={errorMessage || "Por favor, inténtelo de nuevo más tarde."}
             buttonText="Cerrar"
           />
 

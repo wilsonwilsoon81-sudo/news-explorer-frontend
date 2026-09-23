@@ -1,4 +1,4 @@
-const MAIN_API_URL = 'https://news-explorer-backend-ig2o.onrender.com/api';
+import { MAIN_API_URL } from './constants'
 
 const checkResponse = (res) => {
   if (res.ok) return res.json();

@@ -1,8 +1,10 @@
 # News Explorer (Frontend)
 
--🔗 **Enlace a la aplicación desplegada:** [https://zesty-kangaroo-a0d7db.netlify.app/](https://zesty-kangaroo-a0d7db.netlify.app/)
--🔧 **Repositorio del Backend:** [News Explorer Backend](https://github.com/wilsonwilsoon81-sudo/news-explorer-backend.git)
--<img width="320" height="226" alt="demo" src="https://github.com/user-attachments/assets/4262799f-2a4d-42a4-a32b-1920ede41b88" />
+🔗 **Enlace a la aplicación desplegada:** [https://zesty-kangaroo-a0d7db.netlify.app/](https://zesty-kangaroo-a0d7db.netlify.app/)
+
+🔧 **Repositorio del Backend:** [News Explorer Backend](https://github.com/wilsonwilsoon81-sudo/news-explorer-backend.git)
+
+<img width="320" height="226" alt="demo" src="https://github.com/user-attachments/assets/4262799f-2a4d-42a4-a32b-1920ede41b88" />
 
 ## 📖 Descripción
 News Explorer es una aplicación web Full Stack que permite a los usuarios buscar noticias de todo el mundo, autenticarse de forma segura y guardar sus artículos favoritos en un perfil privado. Este repositorio contiene el código del frontend, desarrollado como proyecto final del programa de Desarrollo Web de TripleTen.

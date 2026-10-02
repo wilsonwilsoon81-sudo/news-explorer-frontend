@@ -48,7 +48,8 @@ News Explorer es una aplicación web Full Stack que permite a los usuarios busca
    npm run dev
    ```
 5. Abre tu navegador en http://localhost:5173/
--(Nota: Para que la app funcione completamente, asegúrate de tener el backend corriendo localmente o apuntando a la URL de producción en el archivo de configuración).
+
+(Nota: Para que la app funcione completamente, asegúrate de tener el backend corriendo localmente o apuntando a la URL de producción en el archivo de configuración).
 
 ## 🚀 Despliegue
 El frontend está desplegado en Netlify con integración continua. Cada push a la rama main dispara un nuevo build y despliegue automático.

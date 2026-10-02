@@ -1,8 +1,8 @@
 # News Explorer (Frontend)
 
-🔗 **Enlace a la aplicación desplegada:** [https://zesty-kangaroo-a0d7db.netlify.app/](https://zesty-kangaroo-a0d7db.netlify.app/)
-🔧 **Repositorio del Backend:** [News Explorer Backend](https://github.com/wilsonwilsoon81-sudo/news-explorer-backend.git)
-<img width="320" height="226" alt="demo" src="https://github.com/user-attachments/assets/4262799f-2a4d-42a4-a32b-1920ede41b88" />
+-🔗 **Enlace a la aplicación desplegada:** [https://zesty-kangaroo-a0d7db.netlify.app/](https://zesty-kangaroo-a0d7db.netlify.app/)
+-🔧 **Repositorio del Backend:** [News Explorer Backend](https://github.com/wilsonwilsoon81-sudo/news-explorer-backend.git)
+-<img width="320" height="226" alt="demo" src="https://github.com/user-attachments/assets/4262799f-2a4d-42a4-a32b-1920ede41b88" />
 
 ## 📖 Descripción
 News Explorer es una aplicación web Full Stack que permite a los usuarios buscar noticias de todo el mundo, autenticarse de forma segura y guardar sus artículos favoritos en un perfil privado. Este repositorio contiene el código del frontend, desarrollado como proyecto final del programa de Desarrollo Web de TripleTen.
@@ -46,13 +46,13 @@ News Explorer es una aplicación web Full Stack que permite a los usuarios busca
    npm run dev
    ```
 5. Abre tu navegador en http://localhost:5173/
-(Nota: Para que la app funcione completamente, asegúrate de tener el backend corriendo localmente o apuntando a la URL de producción en el archivo de configuración).
+-(Nota: Para que la app funcione completamente, asegúrate de tener el backend corriendo localmente o apuntando a la URL de producción en el archivo de configuración).
 
 ## 🚀 Despliegue
 El frontend está desplegado en Netlify con integración continua. Cada push a la rama main dispara un nuevo build y despliegue automático.
 
 ## 👨‍💻 Autor
-Wilson Rolando Herrera Romero
-📧 wilson.wilsoon81@gmail.com
-💼 LinkedIn
-🌐 Portafolio
+**Wilson Rolando Herrera Romero**  
+-📧 [wilson.wilsoon81@gmail.com](mailto:wilson.wilsoon81@gmail.com)  
+-💼 [LinkedIn](https://www.linkedin.com/in/wilson-herrera-bb009a253)  
+-🌐 [Portafolio](https://wilsonwilsoon81-sudo.github.io/Portafolio/)

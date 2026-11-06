@@ -6,27 +6,35 @@ class NewsApi {
     this._apiKey = apiKey;
   }
 
-  getNews(keyword) {
+    getNews(keyword) {
     const toDate = new Date();
     const fromDate = new Date();
     fromDate.setDate(toDate.getDate() - 7);
 
     const formatDate = (date) => date.toISOString().split('T')[0];
 
-    const url = new URL(`${this._baseUrl}/everything`);
-    url.searchParams.append('q', keyword);
-    url.searchParams.append('from', formatDate(fromDate));
-    url.searchParams.append('to', formatDate(toDate));
-    url.searchParams.append('sortBy', 'publishedAt');
-    url.searchParams.append('pageSize', '20');
-    url.searchParams.append('apiKey', this._apiKey);
+    // 1. Construimos la URL original de NewsAPI
+    const originalUrl = new URL(`${this._baseUrl}/everything`);
+    originalUrl.searchParams.append('q', keyword);
+    originalUrl.searchParams.append('from', formatDate(fromDate));
+    originalUrl.searchParams.append('to', formatDate(toDate));
+    originalUrl.searchParams.append('sortBy', 'publishedAt');
+    originalUrl.searchParams.append('pageSize', '20'); // Mantenemos 20 para velocidad
+    originalUrl.searchParams.append('apiKey', this._apiKey);
 
-    return fetch(url)
+    // 2. Usamos corsproxy.io para envolver la URL y evitar bloqueos CORS/Timeouts
+    const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(originalUrl.toString())}`;
+
+    return fetch(proxyUrl)
       .then((res) => {
         if (res.ok) {
           return res.json();
         }
         return Promise.reject(`Error: ${res.status}`);
+      })
+      .catch((error) => {
+        console.error("Error al conectar con la API de noticias:", error);
+        throw new Error("No se pudo cargar las noticias. Por favor, intenta de nuevo.");
       });
   }
 }

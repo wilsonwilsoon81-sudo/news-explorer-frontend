@@ -18,7 +18,7 @@ class NewsApi {
     url.searchParams.append('from', formatDate(fromDate));
     url.searchParams.append('to', formatDate(toDate));
     url.searchParams.append('sortBy', 'publishedAt');
-    url.searchParams.append('pageSize', '100');
+    url.searchParams.append('pageSize', '20');
     url.searchParams.append('apiKey', this._apiKey);
 
     return fetch(url)
